@@ -1,9 +1,7 @@
 import React from 'react';
 import './App.css';
-import Reactable from 'reactable';
 import axios from "axios";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import AddEmployee from './AddEmployee';
 
 export default class Req extends React.Component {
     constructor(props){

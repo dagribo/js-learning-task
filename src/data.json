@@ -1,0 +1,23 @@
+[
+    {
+        "id":1,
+        "name":"Dasha",
+        "email": "dagribo@yandex.ru",
+        "birth":"09.07.1997",
+        "salary":25000
+    },
+    {
+        "id":2,
+        "name":"Misha",
+        "email": "misha@yandex.ru",
+        "birth":"18.10.1996",
+        "salary":40000
+    },
+    {
+        "id":3,
+        "name":"Motya",
+        "email": "motycat@yandex.ru",
+        "birth":"03.03.2007",
+        "salary":100000
+    }
+]

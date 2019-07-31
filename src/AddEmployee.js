@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import axios from "axios";
 import { withRouter } from "react-router";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 class AddEmployee extends React.Component{
     constructor(props){
@@ -38,7 +37,7 @@ class AddEmployee extends React.Component{
             }
           }
           
-        let res = await axios.post('http://localhost:3285/api/Employees', dataJ, config);
+        await axios.post('http://localhost:3285/api/Employees', dataJ, config);
         const { history } = this.props;
         history.push('/');
         //this.setState({data:res});
@@ -87,7 +86,7 @@ class AddEmployee extends React.Component{
     }
 
     render() {
-        const {data, match: {params}} = this.props;
+        //const {data, match: {params}} = this.props;
         var nameColor = this.state.nameValid===true?"green":"red";
         var emailColor = this.state.emailValid===true?"green":"red";
         var birthdayColor = this.state.birthdayValid===true?"green":"red";
@@ -114,10 +113,10 @@ class AddEmployee extends React.Component{
                         </label>
                     </p>
                     <p>
-                    <label>
-                        Salary:
-                        <input type="number" value={this.state.salary} onChange={this.salaryChange} style={{borderColor:salaryColor}}/>
-                    </label>
+                        <label>
+                            Salary:
+                            <input type="number" value={this.state.salary} onChange={this.salaryChange} style={{borderColor:salaryColor}}/>
+                        </label>
                     </p>
                 </form>
                 <p>

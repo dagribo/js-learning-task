@@ -1,10 +1,7 @@
 import React from 'react';
 import './App.css';
-import Reactable from 'reactable';
-import Req from './Requests';
 import { withRouter } from "react-router";
 import axios from "axios";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
 
 class EditEmployee extends React.Component{
     constructor(props){
@@ -33,12 +30,19 @@ class EditEmployee extends React.Component{
     getData = async () => {
         let res = await axios.get("http://localhost:3285/api/Employees/"+this.props.match.params.employeeNum);
         let { data } = res;
+        //for(let empl of data)
+        //{
+          let {birthday} = data
+          data.birthday = new Date(Date.parse(birthday))
+          data.birthday=`${data.birthday.getFullYear()}-${data.birthday.getMonth()+1<10?`0${data.birthday.getMonth()+1}`:`${data.birthday.getMonth()+1}`}-${data.birthday.getDate()<10?`0${data.birthday.getDate()}`:`${data.birthday.getDate()}`}`;
+        //}
         this.setState({ 
             name: data.name,
             email: data.email,
             birthday: data.birthday,
             salary: data.salary
         });
+        console.log(this.state.birthday);
     }
     componentDidMount(){
         this.getData();
@@ -56,7 +60,7 @@ class EditEmployee extends React.Component{
                 'Content-Type': 'application/json',
             }
           }
-        let res = await axios.put('http://localhost:3285/api/Employees/'+this.props.match.params.employeeNum, dataJ, config);
+        await axios.put('http://localhost:3285/api/Employees/'+this.props.match.params.employeeNum, dataJ, config);
         const { history } = this.props;
         history.push('/');
         //.then(res => {
@@ -111,8 +115,8 @@ class EditEmployee extends React.Component{
     }
 
     render() {
-        const id=this.props.match.params.id;
-        const {data, match: {params}} = this.props;
+        //const id=this.props.match.params.id;
+        //const {data, match: {params}} = this.props;
         var nameColor = this.state.nameValid===true?"green":"red";
         var emailColor = this.state.emailValid===true?"green":"red";
         var birthdayColor = this.state.birthdayValid===true?"green":"red";
@@ -139,10 +143,10 @@ class EditEmployee extends React.Component{
                         </label>
                     </p>
                     <p>
-                    <label>
-                        Salary:
-                        <input type="number" value={this.state.salary} onChange={this.salaryChange} style={{borderColor:salaryColor}}/>
-                    </label>
+                        <label>
+                            Salary:
+                            <input type="number" value={this.state.salary} onChange={this.salaryChange} style={{borderColor:salaryColor}}/>
+                        </label>
                     </p>
                 </form>
                 <p>

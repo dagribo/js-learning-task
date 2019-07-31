@@ -91,10 +91,10 @@ export default class Req extends React.Component {
                 </Thead>
                 {
                   this.state.Inform.map(empl => {
-                    return <Tr>
+                    return <Tr key={empl.id}>
                       <Td column="name">{empl.name}</Td>
                       <Td column="email">{empl.email}</Td>
-                      <Td column="birthday">{`${empl.birthday.getFullYear()}-${empl.birthday.getMonth()}-${empl.birthday.getDate()}`}</Td>
+                      <Td column="birthday">{`${empl.birthday.getFullYear()}-${empl.birthday.getMonth()+1<10?`0${empl.birthday.getMonth()+1}`:`${empl.birthday.getMonth()+1}`}-${empl.birthday.getDate()<10?`0${empl.birthday.getDate()}`:`${empl.birthday.getDate()}`}`}</Td>
                       <Td column="salary">{empl.salary}</Td>
                       <Td column="edit"><Link to={`/employees/${empl.id}`} onClick={this.editEmployee.bind(this, empl.id)}>Edit</Link></Td>  
                       <Td column="delete"><Link to="/" onClick={this.deleteEmployee.bind(this, empl.id)}>Delete</Link></Td>   

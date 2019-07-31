@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
-import Reactable from 'reactable';
 import Req from './Requests';
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import AddEmployee from './AddEmployee';
 import EditEmployee from './EditEmployee';
 import { createBrowserHistory } from 'history';

@@ -2,7 +2,8 @@ import React from 'react';
 import './App.css';
 import axios from "axios";
 import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
-import Reactable from "reactable"
+import Reactable from "reactable";
+import AuthHelperMethods from './Auth';
 
 var Table = Reactable.Table,
     Thead = Reactable.Thead,
@@ -30,7 +31,7 @@ export default class Req extends React.Component {
     getData = async () => {
         let res = await axios.get("http://localhost:3285/api/Employees");
         let { data } = res;
-        for(let empl of data)
+        for (let empl of data)
         {
           let {birthday} = empl
           empl.birthday = new Date(Date.parse(birthday))
@@ -42,29 +43,30 @@ export default class Req extends React.Component {
     deleteEmployee = async (id) => {
         let res = await axios.delete(`http://localhost:3285/api/Employees/`+id);
         let {data}=res;
+        for (let empl of data)
+        {
+          let {birthday} = empl
+          empl.birthday = new Date(Date.parse(birthday))
+        }
         this.setState({Inform: data});
         this.props.onDataChange(this.state.Inform);
     }
     editEmployee(id) {
       this.props.setId(id);
     }
-    
-  /* Create a new instance of the 'AuthHelperMethods' compoenent*/
   state = {
     username: "",
     password: ""
   }
+  Auth = new AuthHelperMethods();
 
-/* Here will want to add a method to log the user out upon clicking 'Logout' */
-  _handleLogout = () => {
-    
-    
-    this.props.history.replace('/login');
-  }
+    _handleLogout = () => {
+      this.Auth.logout();
+      this.props.history.replace('/login');
+    }
     
     render() {
       let name = null;
-      //This will be null until we set up authentication...
     if (this.props.confirm) {
       name = this.props.confirm.username;
     }
@@ -74,9 +76,7 @@ export default class Req extends React.Component {
             <p>
               <Link to="/add">Add</Link>
             </p>   
-            <p>
-              <button onClick={this._handleLogout}>LOGOUT</button>
-            </p>   
+            <button onClick={this._handleLogout}>LOGOUT</button> 
             {this.state.Inform.length === 0 ? (
               <div>Loading...</div>
             ) : (
@@ -96,8 +96,8 @@ export default class Req extends React.Component {
                       <Td column="email">{empl.email}</Td>
                       <Td column="birthday">{`${empl.birthday.getFullYear()}-${empl.birthday.getMonth()+1<10?`0${empl.birthday.getMonth()+1}`:`${empl.birthday.getMonth()+1}`}-${empl.birthday.getDate()<10?`0${empl.birthday.getDate()}`:`${empl.birthday.getDate()}`}`}</Td>
                       <Td column="salary">{empl.salary}</Td>
-                      <Td column="edit"><Link to={`/employees/${empl.id}`} onClick={this.editEmployee.bind(this, empl.id)}>Edit</Link></Td>  
-                      <Td column="delete"><Link to="/" onClick={this.deleteEmployee.bind(this, empl.id)}>Delete</Link></Td>   
+                      <Td column="edit"><Link to={`/employee/${empl.id}`} onClick={this.editEmployee.bind(this, empl.id)}>Edit</Link></Td>  
+                      <Td column="delete"><Link to="/employees" onClick={this.deleteEmployee.bind(this, empl.id)}>Delete</Link></Td>   
                     </Tr>;
                     })
                 }

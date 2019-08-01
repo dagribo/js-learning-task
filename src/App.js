@@ -5,7 +5,9 @@ import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import AddEmployee from './AddEmployee';
 import EditEmployee from './EditEmployee';
 import { createBrowserHistory } from 'history';
-import Login from './Login'
+import Login from './Login';
+import Auth from './Auth';
+import withAuth from './WithAuth';
 
 class App extends React.Component{
   constructor(props) {
@@ -30,32 +32,21 @@ class App extends React.Component{
     return this.state.employeeNum;
   }
   
-  /* Create a new instance of the 'AuthHelperMethods' compoenent*/
   state = {
     username: "",
     password: ""
   }
 
-/* Here will want to add a method to log the user out upon clicking 'Logout' */
-  _handleLogout = () => {
-    
-    
-    this.props.history.replace('/login');
-  }
   render(){
     return (
       <Router>
         <Switch>
-          <Route exact path='/' render={props => <Req data={this.state.mainData} onDataChange={this.handleDataChange} setId={this.setEmployeeId} {...props} />} />
+          <Route exact path='/employees' render={props => <Req data={this.state.mainData} onDataChange={this.handleDataChange} setId={this.setEmployeeId} {...props} />} />
           <Route path='/add' render={props => <AddEmployee data={this.state.mainData} onDataChange={this.handleDataChange} {...props} />}/>
-          <Route path='/employees/:employeeNum' render={props => <EditEmployee data={this.state.mainData} onDataChange={this.handleDataChange} {...props} />}/>
+          <Route path='/employee/:employeeNum' render={props => <EditEmployee data={this.state.mainData} onDataChange={this.handleDataChange} {...props} />}/>
           <Route path="/login" component={Login} />
         </Switch>
       </Router>
-      
-      //<Table className="table" data={Data} />
-      //<STable 
-      //<SortableTable data={Data}></SortableTable>
     );
   }
 }

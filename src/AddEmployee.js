@@ -39,7 +39,7 @@ class AddEmployee extends React.Component{
           
         await axios.post('http://localhost:3285/api/Employees', dataJ, config);
         const { history } = this.props;
-        history.push('/');
+        history.push('/employees');
         //this.setState({data:res});
         /*axios({
             method: 'post',
@@ -54,7 +54,7 @@ class AddEmployee extends React.Component{
     }
     cancelAdding(){
         const { history } = this.props;
-        history.push('/');
+        history.push('/employees');
     }
 
     validateName(name){

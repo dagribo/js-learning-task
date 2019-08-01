@@ -2,18 +2,15 @@ import React from 'react';
 import './App.css';
 import { Link } from 'react-router-dom';
 import './Login.css'
-
+import AuthHelperMethods from './Auth'
 
 class Login extends React.Component {
-
-    /* In order to utilize our authentication methods within the AuthService class, we want to instantiate a new object */
-
     state = {
         username: "",
         password: ""
     }
 
-    /* Fired off every time the use enters something into the input fields */
+    Auth = new AuthHelperMethods();
     _handleChange = (e) => {
         this.setState(
             {
@@ -22,16 +19,25 @@ class Login extends React.Component {
         )
     }
 
-    handleFormSubmit = (e) => {
+    handleFormSubmit = e => {
         e.preventDefault();
-
-        /* Here is where all the login logic will go. Upon clicking the login button, we would like to utilize a login method that will send our entered credentials over to the server for verification. Once verified, it should store your token and send you to the protected route. */
+        
+        this.Auth.login(this.state.username, this.state.password)
+        .then(res => {
+            if (res==false) {
+                return alert("Sorry, those creditials don't exist!");
+            }
+            this.props.history.replace("/employees");
+        })
+        .catch(err => {
+            alert(err);
+        });
     }
 
     componentWillMount() {
-
-        /* Here is a great place to redirect someone who is already logged in to the protected route */
-        
+        if (this.Auth.loggedIn()){
+            this.props.history.replace('/employees');
+        }  
     }
 
     render() {

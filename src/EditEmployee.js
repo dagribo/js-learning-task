@@ -62,7 +62,7 @@ class EditEmployee extends React.Component{
           }
         await axios.put('http://localhost:3285/api/Employees/'+this.props.match.params.employeeNum, dataJ, config);
         const { history } = this.props;
-        history.push('/');
+        history.push('/employees');
         //.then(res => {
         //    console.log(res)
         //    this.setState({data:res});
@@ -81,7 +81,7 @@ class EditEmployee extends React.Component{
     }
     cancelEditing(){
         const { history } = this.props;
-        history.push('/');
+        history.push('/employees');
     }
 
     validateName(name){

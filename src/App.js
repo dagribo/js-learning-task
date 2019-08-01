@@ -6,8 +6,6 @@ import AddEmployee from './AddEmployee';
 import EditEmployee from './EditEmployee';
 import { createBrowserHistory } from 'history';
 import Login from './Login';
-import Auth from './Auth';
-import withAuth from './WithAuth';
 
 class App extends React.Component{
   constructor(props) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import axios from "axios";
-import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import Reactable from "reactable";
 import AuthHelperMethods from './Auth';
 
@@ -26,28 +26,27 @@ export default class Req extends React.Component {
     };
     componentDidMount() {
        this.getData();
-       console.log('Did mount')
     }
+    async handleData(requestPromise)
+    {
+      const res = await requestPromise;
+      let { data } = res;
+      for (let empl of data)
+      {
+        let {birthday} = empl
+        empl.birthday = new Date(Date.parse(birthday))
+      }
+
+      return data;
+    }
+
     getData = async () => {
-        let res = await axios.get("http://localhost:3285/api/Employees");
-        let { data } = res;
-        for (let empl of data)
-        {
-          let {birthday} = empl
-          empl.birthday = new Date(Date.parse(birthday))
-        }
-        console.log(data);
+        const data = await this.handleData(axios.get("http://localhost:3285/api/Employees"));
         this.setState({ Inform: data });
         this.props.onDataChange(this.state.Inform);
     };
-    deleteEmployee = async (id) => {
-        let res = await axios.delete(`http://localhost:3285/api/Employees/`+id);
-        let {data}=res;
-        for (let empl of data)
-        {
-          let {birthday} = empl
-          empl.birthday = new Date(Date.parse(birthday))
-        }
+    deleteEmployee = async id => {
+        const data = await this.handleData(axios.delete(`http://localhost:3285/api/Employees/${id}`));
         this.setState({Inform: data});
         this.props.onDataChange(this.state.Inform);
     }
@@ -66,7 +65,7 @@ export default class Req extends React.Component {
     }
     
     render() {
-      let name = null;
+    let name = null;
     if (this.props.confirm) {
       name = this.props.confirm.username;
     }

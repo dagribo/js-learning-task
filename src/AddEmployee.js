@@ -40,17 +40,6 @@ class AddEmployee extends React.Component{
         await axios.post('http://localhost:3285/api/Employees', dataJ, config);
         const { history } = this.props;
         history.push('/employees');
-        //this.setState({data:res});
-        /*axios({
-            method: 'post',
-            url: 'http://localhost:3285/api/Employees',
-            data: dataJ,
-            headers: {'Content-Type': 'application/json' }})
-            .then(res => {
-                //this.setState({data:res});
-            })
-        */
-        //this.props.onDataChange(this.state.data);
     }
     cancelAdding(){
         const { history } = this.props;
@@ -86,11 +75,10 @@ class AddEmployee extends React.Component{
     }
 
     render() {
-        //const {data, match: {params}} = this.props;
-        var nameColor = this.state.nameValid===true?"green":"red";
-        var emailColor = this.state.emailValid===true?"green":"red";
-        var birthdayColor = this.state.birthdayValid===true?"green":"red";
-        var salaryColor = this.state.salaryValid===true?"green":"red";
+        var nameColor = this.state.nameValid ? "green" : "red";
+        var emailColor = this.state.emailValid ? "green" : "red";
+        var birthdayColor = this.state.birthdayValid ? "green" : "red";
+        var salaryColor = this.state.salaryValid ? "green" : "red";
         return (
             <div>
                 <form>

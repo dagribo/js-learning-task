@@ -18,7 +18,6 @@ class EditEmployee extends React.Component{
             salaryValid:true,
             data: [],
             Employee:[]
-            //data:this.props.value.state.in
         };
 
         this.nameChange = this.nameChange.bind(this);
@@ -30,19 +29,19 @@ class EditEmployee extends React.Component{
     getData = async () => {
         let res = await axios.get("http://localhost:3285/api/Employees/"+this.props.match.params.employeeNum);
         let { data } = res;
-        //for(let empl of data)
-        //{
-          let {birthday} = data
-          data.birthday = new Date(Date.parse(birthday))
-          data.birthday=`${data.birthday.getFullYear()}-${data.birthday.getMonth()+1<10?`0${data.birthday.getMonth()+1}`:`${data.birthday.getMonth()+1}`}-${data.birthday.getDate()<10?`0${data.birthday.getDate()}`:`${data.birthday.getDate()}`}`;
-        //}
+        let { birthday } = data
+        data.birthday = new Date(Date.parse(birthday))
+        data.birthday =`${data.birthday.getFullYear()}-${data.birthday.getMonth() + 1 < 10 ?
+            `0${data.birthday.getMonth() + 1}`
+            : `${data.birthday.getMonth() + 1}`}-${data.birthday.getDate() < 10 
+                ?`0${data.birthday.getDate()}`
+                :`${data.birthday.getDate()}`}`;
         this.setState({ 
             name: data.name,
             email: data.email,
             birthday: data.birthday,
             salary: data.salary
         });
-        console.log(this.state.birthday);
     }
     componentDidMount(){
         this.getData();
@@ -63,21 +62,6 @@ class EditEmployee extends React.Component{
         await axios.put('http://localhost:3285/api/Employees/'+this.props.match.params.employeeNum, dataJ, config);
         const { history } = this.props;
         history.push('/employees');
-        //.then(res => {
-        //    console.log(res)
-        //    this.setState({data:res});
-        //});
-        
-        //console.log(this.props.match.params.employeeNum);
-        /*axios({
-            method: 'put',
-            url: 'http://localhost:3285/api/Employees/'+this.props.match.params.employeeNum,
-            data: dataJ,
-            headers: {'Content-Type': 'application/json' }})
-            .then(res => {
-                this.setState({data:res}); //await
-            })*/
-        //this.props.onDataChange(this.state.data);
     }
     cancelEditing(){
         const { history } = this.props;
@@ -98,7 +82,6 @@ class EditEmployee extends React.Component{
         var val = event.target.value;
         var valid = this.validateName(val);
         this.setState({name: val, nameValid: valid});
-        //this.setState({name: event.target.value.toUpperCase()});
     }
     emailChange(event) {
         var val = event.target.value;
@@ -115,8 +98,6 @@ class EditEmployee extends React.Component{
     }
 
     render() {
-        //const id=this.props.match.params.id;
-        //const {data, match: {params}} = this.props;
         var nameColor = this.state.nameValid===true?"green":"red";
         var emailColor = this.state.emailValid===true?"green":"red";
         var birthdayColor = this.state.birthdayValid===true?"green":"red";
@@ -151,7 +132,6 @@ class EditEmployee extends React.Component{
                 </form>
                 <p>
                     <button onClick={this.editEmployee.bind(this)}>Save</button>
-                    {/* <Link to="/" onClick={this.editEmployee.bind(this)}>Save</Link> */}
                     <button onClick={this.cancelEditing.bind(this)}>Cancel</button> 
                 </p>
             </div>

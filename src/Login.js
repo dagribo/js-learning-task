@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import { Link } from 'react-router-dom';
 import './Login.css'
 import AuthHelperMethods from './Auth'
 
@@ -19,19 +18,17 @@ class Login extends React.Component {
         )
     }
 
-    handleFormSubmit = e => {
+    handleFormSubmit = async e => {
         e.preventDefault();
-        
-        this.Auth.login(this.state.username, this.state.password)
-        .then(res => {
-            if (res==false) {
+        try {
+            const res = await this.Auth.login(this.state.username, this.state.password);
+            if (!res) {
                 return alert("Sorry, those creditials don't exist!");
             }
             this.props.history.replace("/employees");
-        })
-        .catch(err => {
+        } catch(err) {
             alert(err);
-        });
+        }
     }
 
     componentWillMount() {
